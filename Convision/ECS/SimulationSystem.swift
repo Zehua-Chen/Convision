@@ -8,28 +8,29 @@ import OSLog
 import RealityKit
 
 struct SimulationSystem: System {
-  private static let convisionComponentQuery = EntityQuery(where: .has(SimulationComponent.self))
+  private static let query = EntityQuery(
+    where: .has(SimulationComponent.self) && .has(CellLayoutComponent.self))
   private static let logger = Logger(subsystem: "ECS", category: String(describing: Self.self))
 
   init(scene: Scene) {}
 
   func update(context: SceneUpdateContext) {
-    for entity in context.entities(
-      matching: Self.convisionComponentQuery, updatingSystemWhen: .rendering)
-    {
-      var convisionComponent = entity.components[SimulationComponent.self]!
+    for entity in context.entities(matching: Self.query, updatingSystemWhen: .rendering) {
+      var simulationComponent = entity.components[SimulationComponent.self]!
+      let cellLayoutComponent = entity.components[CellLayoutComponent.self]!
 
-      convisionComponent.secondsSinceLastUpdate += context.deltaTime
+      simulationComponent.secondsSinceLastUpdate += context.deltaTime
 
-      if convisionComponent.secondsSinceLastUpdate > convisionComponent.updateInterval {
-        Self.logger.info("\(type(of: entity)) update!")
-        convisionComponent.secondsSinceLastUpdate = 0
+      if simulationComponent.secondsSinceLastUpdate > simulationComponent.updateInterval {
+        simulate(cellLayout: cellLayoutComponent)
+        simulationComponent.secondsSinceLastUpdate = 0
       }
 
-      entity.components.set(convisionComponent)
-
-      // Only process one conway simulation
-      return
+      entity.components.set(simulationComponent)
     }
+  }
+
+  private func simulate(cellLayout: CellLayoutComponent) {
+    Self.logger.info("Simulate!")
   }
 }

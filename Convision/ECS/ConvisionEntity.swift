@@ -49,9 +49,6 @@ class ConvisionEntity: Entity, DebuggableEntity {
       entities.append(row)
     }
 
-    let convisionComponent = SimulationComponent(updateInterval: Self.defaultUpdateInterval)
-    self.components.set(convisionComponent)
-
     let cellLayoutComponent = CellLayoutComponent(
       cells: entities, parent: self, boundingBox: boundingBox, gap: gap)
     self.components.set(cellLayoutComponent)
@@ -64,6 +61,10 @@ class ConvisionEntity: Entity, DebuggableEntity {
   var boundingBox: BoundingBox {
     get { components[CellLayoutComponent.self]!.boundingBox }
     set { components[CellLayoutComponent.self]!.boundingBox = newValue }
+  }
+
+  func start(updateInterval: Double = 1.0) {
+    self.components.set(SimulationComponent(updateInterval: updateInterval))
   }
 
   static func numberOfCells(cellScale: Float, total: Float, gap: Float) -> Int {

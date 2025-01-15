@@ -28,17 +28,12 @@ struct ContentView: View {
       }
       .toolbar {
         ToolbarItemGroup(placement: .bottomOrnament) {
-          VStack(spacing: 12) {
-            Button {
-              enlarge.toggle()
-            } label: {
-              Text(enlarge ? "Reduce RealityView Content" : "Enlarge RealityView Content")
-            }
-            .animation(.none, value: 0)
-            .fontWeight(.semibold)
-
-            ToggleImmersiveSpaceButton()
+          Button {
+            convisionEntity?.start()
+          } label: {
+            Text("Start")
           }
+          .disabled(convisionEntity == nil)
         }
       }
     }
