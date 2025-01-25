@@ -26,6 +26,20 @@ struct ContentView: View {
         convisionEntity?.boundingBox = content.convert(
           geometry.frame(in: .local), from: .local, to: content)
       }
+      .gesture(
+        TapGesture()
+          .targetedToAnyEntity()
+          .onEnded { value in
+            let entity = value.entity
+
+            guard var cellStateComponent = entity.components[CellStateComponent.self] else {
+              return
+            }
+
+            cellStateComponent.isAlive = true
+            entity.components.set(cellStateComponent)
+          }
+      )
       .toolbar {
         ToolbarItemGroup(placement: .bottomOrnament) {
           Button {

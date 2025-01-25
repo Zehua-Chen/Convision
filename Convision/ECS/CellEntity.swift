@@ -17,6 +17,8 @@ class CellEntity: Entity, DebuggableEntity {
 
     self.scale = SIMD3<Float>(repeating: scale)
 
+    self.components.set(CellStateComponent())
+
     self.components.set(HoverEffectComponent())
     self.components.set(InputTargetComponent())
 
@@ -24,7 +26,7 @@ class CellEntity: Entity, DebuggableEntity {
       CollisionComponent(shapes: [.generateBox(size: SIMD3<Float>(repeating: 1.0))]))
 
     let boxMesh = MeshResource.generateBox(size: 1.0)
-    let material = UnlitMaterial(color: .gray)
+    let material = CellStateSystem.deadMaterial
 
     let modelComponent = ModelComponent(mesh: boxMesh, materials: [material])
 

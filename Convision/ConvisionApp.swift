@@ -14,9 +14,12 @@ struct ConvisionApp: App {
 
   init() {
     CellLayoutComponent.registerComponent()
-    CellLayoutSystem.registerSystem()
-
+    CellStateComponent.registerComponent()
+    NeedsLayoutComponent.registerComponent()
     SimulationComponent.registerComponent()
+
+    CellLayoutSystem.registerSystem()
+    CellStateSystem.registerSystem()
     SimulationSystem.registerSystem()
   }
 
