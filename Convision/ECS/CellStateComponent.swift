@@ -8,4 +8,5 @@ import RealityKit
 
 struct CellStateComponent: Component {
   var isAlive = false
+  var isGoingToBeAlive: Bool?
 }

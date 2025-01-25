@@ -19,7 +19,12 @@ struct CellStateSystem: System {
   func update(context: SceneUpdateContext) {
     for entity in context.entities(matching: Self.query, updatingSystemWhen: .rendering) {
       guard var modelComponent = entity.components[ModelComponent.self] else { return }
-      guard let cellStateComponent = entity.components[CellStateComponent.self] else { return }
+      guard var cellStateComponent = entity.components[CellStateComponent.self] else { return }
+
+      if let isGoingToBeAlive = cellStateComponent.isGoingToBeAlive {
+        cellStateComponent.isAlive = isGoingToBeAlive
+        cellStateComponent.isGoingToBeAlive = nil
+      }
 
       if cellStateComponent.isAlive {
         modelComponent.materials = [Self.aliveMaterial]
@@ -28,6 +33,7 @@ struct CellStateSystem: System {
       }
 
       entity.components.set(modelComponent)
+      entity.components.set(cellStateComponent)
     }
   }
 }

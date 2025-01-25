@@ -18,7 +18,7 @@ struct CellLayoutSystem: System {
       entity.components.remove(NeedsLayoutComponent.self)
       let cellLayout = entity.components[CellLayoutComponent.self]!
 
-      for (x, row) in cellLayout.cells.enumerated() {
+      for (x, row) in cellLayout.grid.enumerated() {
         for (y, cell) in row.enumerated() {
           let cellSizeX = cell.scale.x
           let cellSizeY = cell.scale.y

@@ -36,7 +36,7 @@ struct ContentView: View {
               return
             }
 
-            cellStateComponent.isAlive = true
+            cellStateComponent.isGoingToBeAlive = true
             entity.components.set(cellStateComponent)
           }
       )

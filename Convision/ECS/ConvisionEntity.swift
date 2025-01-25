@@ -50,7 +50,7 @@ class ConvisionEntity: Entity, DebuggableEntity {
     }
 
     let cellLayoutComponent = CellLayoutComponent(
-      cells: entities, parent: self, boundingBox: boundingBox, gap: gap)
+      grid: entities, parent: self, boundingBox: boundingBox, gap: gap)
     self.components.set(cellLayoutComponent)
     self.components.set(NeedsLayoutComponent())
 
