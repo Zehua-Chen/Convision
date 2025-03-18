@@ -46,14 +46,14 @@ struct ContentView: View {
       .toolbar {
         ToolbarItemGroup(placement: .bottomOrnament) {
           Button {
-            convisionEntity?.start()
+            convisionEntity?.isRunning = true
           } label: {
             Text("Start")
           }
           .disabled(convisionEntity == nil || isRunning)
 
           Button {
-            convisionEntity?.stop()
+            convisionEntity?.isRunning = false
           } label: {
             Text("Stop")
           }

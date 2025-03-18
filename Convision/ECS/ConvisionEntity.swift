@@ -1,10 +1,10 @@
-import Observation
 //
 //  ConvisionEntity.swift
 //  Convision
 //
 //  Created by Zehua Chen on 1/9/25.
 //
+import Observation
 import RealityKit
 
 @Observable
@@ -16,7 +16,17 @@ final class ConvisionEntity: Entity, DebuggableEntity {
   /// Access pattern: `[x][y]`
   var entities: [[CellEntity]] = []
 
-  var isRunning = false
+  var isRunning = false {
+    didSet {
+      if isRunning && !oldValue {
+        // Start simulation
+        self.components.set(SimulationComponent(updateInterval: Self.defaultUpdateInterval))
+      } else if !isRunning && oldValue {
+        // Stop simulation
+        self.components.remove(SimulationComponent.self)
+      }
+    }
+  }
 
   /// Don't use this initializer.
   required convenience init() {
@@ -65,18 +75,6 @@ final class ConvisionEntity: Entity, DebuggableEntity {
   var boundingBox: BoundingBox {
     get { components[CellLayoutComponent.self]!.boundingBox }
     set { components[CellLayoutComponent.self]!.boundingBox = newValue }
-  }
-
-  func start(updateInterval: Double = 1.0) {
-    guard !isRunning else { return }
-    self.components.set(SimulationComponent(updateInterval: updateInterval))
-    isRunning = true
-  }
-
-  func stop() {
-    guard isRunning else { return }
-    self.components.remove(SimulationComponent.self)
-    isRunning = false
   }
 
   static func numberOfCells(cellScale: Float, total: Float, gap: Float) -> Int {
