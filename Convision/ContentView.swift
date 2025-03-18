@@ -9,8 +9,11 @@ import RealityKit
 import SwiftUI
 
 struct ContentView: View {
-  @State private var enlarge = false
   @State private var convisionEntity: ConvisionEntity?
+
+  var isRunning: Bool {
+    return convisionEntity?.isRunning ?? false
+  }
 
   var body: some View {
     GeometryReader3D { geometry in
@@ -47,7 +50,14 @@ struct ContentView: View {
           } label: {
             Text("Start")
           }
-          .disabled(convisionEntity == nil)
+          .disabled(convisionEntity == nil || isRunning)
+
+          Button {
+            convisionEntity?.stop()
+          } label: {
+            Text("Stop")
+          }
+          .disabled(convisionEntity == nil || !isRunning)
         }
       }
     }

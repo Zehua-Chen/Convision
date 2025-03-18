@@ -1,3 +1,4 @@
+import Observation
 //
 //  ConvisionEntity.swift
 //  Convision
@@ -6,13 +7,16 @@
 //
 import RealityKit
 
-class ConvisionEntity: Entity, DebuggableEntity {
+@Observable
+final class ConvisionEntity: Entity, DebuggableEntity {
   static let defaultUpdateInterval = 1.0
 
   let dimension: Int
 
   /// Access pattern: `[x][y]`
   var entities: [[CellEntity]] = []
+
+  var isRunning = false
 
   /// Don't use this initializer.
   required convenience init() {
@@ -64,7 +68,15 @@ class ConvisionEntity: Entity, DebuggableEntity {
   }
 
   func start(updateInterval: Double = 1.0) {
+    guard !isRunning else { return }
     self.components.set(SimulationComponent(updateInterval: updateInterval))
+    isRunning = true
+  }
+
+  func stop() {
+    guard isRunning else { return }
+    self.components.remove(SimulationComponent.self)
+    isRunning = false
   }
 
   static func numberOfCells(cellScale: Float, total: Float, gap: Float) -> Int {

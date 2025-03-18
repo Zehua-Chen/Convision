@@ -19,7 +19,7 @@ class CellEntity: Entity, DebuggableEntity {
 
     self.components.set(CellStateComponent())
 
-    self.components.set(HoverEffectComponent())
+    self.components.set(HoverEffectComponent(.highlight(.init(color: .orange, strength: 1))))
     self.components.set(InputTargetComponent())
 
     self.components.set(
